@@ -1,19 +1,10 @@
-import java.io.File
+val nums = List(1,2,7,1,2,1,2,3,3,3);
+var a = 0
+var b = 0
+nums.foreach(x=>{
+  b = a & (b ^ x)
+  a = b | (a ^ x)
+  printf("%d, %d\n", b,a)
+})
+print(a)
 
-import akka.actor.{Props, ActorSystem, Actor}
-import com.typesafe.config.{ConfigFactory, Config}
-
-case class Message(id: Int, msg: String){}
-
-class HelloActor extends Actor {
-  override def receive: Actor.Receive = {
-    case "hello" => println("world")
-    case _ => println("uh?")
-  }
-}
-val conf = ConfigFactory.parseFile(new File("./application.conf"))
-val system = ActorSystem("HelloSystem",conf)
-println(system.settings)
-// default Actor constructor
-val helloActor = system.actorOf(Props[HelloActor], name = "helloactor")
-helloActor ! "Hello"
